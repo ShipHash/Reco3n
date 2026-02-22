@@ -19,7 +19,7 @@ async function login() {
     return;
   }
 
-  const res = await fetch("BACKEND_URL_AUTH", {
+  const res = await fetch("https://n8n.srv1140797.hstgr.cloud/webhook/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password })
@@ -71,4 +71,5 @@ function logout() {
 function toggleDarkMode() {
   document.body.classList.toggle("dark");
 }
+
 
