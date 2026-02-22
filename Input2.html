@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reco3n Target</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- Your existing CSS unchanged --- */
+    :root {
+      --bg: #0b0f19;
+      --card: rgba(17, 24, 39, 0.92);
+      --border: rgba(255,255,255,0.08);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #4f8bff;
+      --danger: #ef4444;
+      --success: #22c55e;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      color: var(--text);
+      background: url("bg.jpg") no-repeat center center / cover;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        rgba(0, 0, 0, 0.65),
+        rgba(0, 0, 0, 0.9)
+      );
+      z-index: -1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(15, 23, 42, 0.95);
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: "Orbitron", sans-serif;
+      font-size: 22px;
+      letter-spacing: 1.4px;
+      color: #f9fafb;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 760px;
+      background: rgba(17, 24, 39, 0.65);
+      border-radius: 14px;
+      padding: 48px 36px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+      text-align: center;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .card h2 {
+      margin-bottom: 28px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: #f3f4f6;
+    }
+
+    .input-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      max-width: 520px;
+      min-height: 56px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(79,139,255,0.25);
+    }
+
+    button {
+      margin-top: 6px;
+      padding: 12px 36px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #4f8bff, #2563eb);
+      color: white;
+      font-weight: 500;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(79,139,255,0.35);
+    }
+
+    #responseBox {
+      margin-top: 26px;
+      min-height: 28px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 12px 20px;
+      font-size: 13px;
+      color: var(--muted);
+      backdrop-filter: blur(8px);
+    }
+
+   footer span {
+      color: var(--accent);
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Reco3n</h1>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Enter Your Target</h2>
+
+      <div class="input-wrap">
+        <input id="userInput" type="text" placeholder="Type here" />
+        <button onclick="saveLocation()">Continue</button>
+        <div id="responseBox"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="auth.js"></script>
+
+  <script>
+    const session = getSession();
+
+    // 🚨 Protect page
+    if (!session) {
+      window.location.href = "login.html";
+    }
+
+    async function saveLocation() {
+      const location = document
+        .getElementById("userInput")
+        .value.trim();
+
+      const responseBox = document.getElementById("responseBox");
+
+      if (!location) {
+        responseBox.style.color = "var(--danger)";
+        responseBox.innerText = "Please enter your target.";
+        return;
+      }
+
+      responseBox.style.color = "var(--muted)";
+      responseBox.innerText = "Saving target...";
+
+      try {
+        const res = await fetch(
+          "https://n8n.srv1140797.hstgr.cloud/webhook/target",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionId: session.sessionId,
+              location
+            })
+          }
+        );
+
+        const data = await res.json();
+
+        if (data.error) {
+          responseBox.style.color = "var(--danger)";
+          responseBox.innerText = "Session expired. Redirecting...";
+          setTimeout(() => logout(), 1200);
+          return;
+        }
+
+        responseBox.style.color = "var(--success)";
+        responseBox.innerText = "Location saved successfully.";
+
+        setTimeout(() => {
+          window.location.href = "app.html";
+        }, 800);
+
+      } catch (err) {
+        responseBox.style.color = "var(--danger)";
+        responseBox.innerText = "Network error. Please try again.";
+      }
+    }
+
+    document
+      .getElementById("userInput")
+      .addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          saveLocation();
+        }
+      });
+  </script>
+<footer>
+  Disclaimer: The Engagement Letter (EL) / Letter of Engagement (LOE) must be reviewed and duly signed before the commencement of any work.
+</footer>
+</body>
+</html>

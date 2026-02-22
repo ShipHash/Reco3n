@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ask. Discover. Secure.</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- LEFT VERTICAL STACK (background visual element) -->
+  <div class="left-stack">
+    <span class="inactive">Ask.</span><br>
+    <span class="active">Discover.</span><br>
+    <span class="inactive">Secure.</span>
+  </div>
+
+  <!-- HERO / TAGLINE -->
+  <div class="hero">
+    <h1>Reco3n</h1>
+    <p>Security intelligence, powered by automation.</p>
+  </div>
+
+  <!-- LOGIN CARD -->
+  <div class="login-card card">
+    <h2>Login</h2>
+
+     <form onsubmit="login(); return false;">
+    <input
+      id="username"
+      type="text"
+      placeholder="Enter your email"
+    />
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Enter your password"
+    />
+
+    <button type="submit">Login</button>
+  </form>
+</div>
+  </div>
+
+  <script src="auth.js"></script>
+</body>
+</html>

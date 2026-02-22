@@ -1,0 +1,222 @@
+/* =====================
+   RESET
+===================== */
+* {
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: url("bg.jpg")
+    no-repeat center center / cover;
+  color: #fff;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.85)
+  );
+  z-index: -1;
+}
+
+/* =====================
+   DARK OVERLAY
+===================== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.75)
+  );
+  z-index: 0;
+}
+
+/* =====================
+   HERO TEXT
+===================== */
+.hero {
+  position: absolute;
+  top: 70px;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+
+.hero h1 {
+  margin-bottom: 8px;
+  text-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+  opacity: 0.95;
+}
+
+.hero p {
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+/* =====================
+   LOGIN CARD
+===================== */
+.login-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  margin-left: 5px; /* space for left stack */
+
+  width: 380px;
+  padding: 32px;
+  border-radius: 18px;
+
+  /* 🔑 FIX: more opaque glass */
+  background: rgba(30, 30, 35, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.65),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+
+  z-index: 2;
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+/* =====================
+   INPUTS
+===================== */
+.login-card input[type="text"],
+.login-card input[type="password"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+
+  /* 🔑 FIX: solid inputs */
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+
+  color: #111;
+  outline: none;
+  font-size: 15px;
+}
+
+.login-card input::placeholder {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.login-card input:focus {
+  box-shadow: 0 0 0 3px rgba(122, 162, 255, 0.35);
+}
+
+/* =====================
+   ROW (REMEMBER / FORGOT)
+===================== */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+.row label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.link {
+  color: #9db6ff;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* =====================
+   BUTTON
+===================== */
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+
+  background: linear-gradient(135deg, #4f7cff, #6a8dff);
+  color: white;
+  font-size: 15px;
+
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  box-shadow: 0 10px 30px rgba(79, 124, 255, 0.6);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* =====================
+   FOOTER
+===================== */
+.footer {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* =====================
+   LEFT VERTICAL STACK
+===================== */
+.left-stack {
+  position: fixed;
+  left: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-size: 70px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Inactive text */
+.left-stack .inactive {
+  color: transparent; /* no fill */
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.65);
+  opacity: 0.8;
+
+  /* 🤍 White outline glow */
+  filter:
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.6))
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.35))
+    drop-shadow(0 0 18px rgba(255, 255, 255, 0.2));
+}
+
+/* Active text */
+.left-stack .active {
+  color: rgba(255, 255, 255, 0.78); /* slightly muted white */
+  margin: 10px 0;
+}

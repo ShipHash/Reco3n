@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reco3n Dashboard</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+
+<body>
+
+<div class="topbar">
+  <div class="brand">Reco3n</div>
+  <b><i>Welcome <span id="user"></span>!</b></i>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<div class="card">
+  <h2>Choose one</h2>
+<br>
+  <div class="actions">
+    <button onclick="send('IP')">IP</button>
+    <button onclick="send('SUBDOMAINS')">Subdomains</button>
+    <button onclick="send('Both')">Both</button>
+  </div>
+
+  <div id="response"></div>
+</div>
+
+<script src="auth.js"></script>
+<script>
+  const session = getSession();
+  // 🚨 Protect page
+  if (!session) {
+    window.location.href = "login.html";
+  }
+
+  document.getElementById("user").innerText = session.User;
+
+  document.getElementById("locationText").innerText =
+    "Location: " + session.target;
+
+  async function send(choice) {
+    const res = await fetch("https://YOUR-N8N-DOMAIN/webhook/app", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: session.sessionId,
+        choice,
+        location: session.location
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.error) {
+      alert("Session expired. Please login again.");
+      logout();
+      return;
+    }
+
+    document.getElementById("response").innerText =
+      JSON.stringify(data, null, 2);
+  }
+</script>
+<footer>
+  Disclaimer: The Engagement Letter (EL) / Letter of Engagement (LOE) must be reviewed and duly signed before the commencement of any work.
+</footer>
+</body>
+</html>
